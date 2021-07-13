@@ -1,4 +1,4 @@
-# animals_desc
+# About
 - name: Artem
 - lastName: Lytkin
 - age: 26
