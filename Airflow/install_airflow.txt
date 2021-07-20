@@ -70,4 +70,34 @@ Access Logformat:
 
 	http://localhost:8001/
  
-12. Осталось создать юзера, размапить директорию для дагов , которая каждые 5 сек будет мониторится и использовать что нам нужно.
+12. Осталось создать юзера, запустить шедулер, размапить директорию для дагов, 
+	которая каждые 5 сек будет мониторится и использовать что нам нужно:
+
+ --создаём юзера
+ 
+airflow users create \
+    --email tedf@bk.ru --firstname Artem \
+    --lastname Lytkin --password ******** \
+    --role Admin --username Art
+	
+ -- запускаем шедулер
+airflow scheduler
+
+ -- создаём и мапим папку с дагами
+ 
+ (полные права автоматом ,т.е. drwxrwxrwx, делаем ж с root)
+ -- созданине папки под даги
+cd /mnt/c 
+mkdir Airflow
+cd Airflow
+mkdir DAG
+
+ -- мапим
+cd 
+cd airflow
+nano airflow.cfg
+
+
+далее меняем значение самого первого параметра dags_folder на /mnt/c/airflow/dag
+
+13. Запускаем, работаем.
