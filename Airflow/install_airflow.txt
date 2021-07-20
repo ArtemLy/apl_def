@@ -1,2 +1,37 @@
 # Link
 https://airflow.apache.org/docs/apache-airflow/stable/installation.html
+
+# 20.07.2021
+# Ставим Airflow на Windows :)
+
+# Сейчас хотим поставить Ubuntu себе на комп чтоб на нём запускаться (без venv)
+
+1. Переходим в Панель управления\Все элементы панели управления\Программы и компоненты
+2. Слева в панеле жмём "Включение или отключение компонентов Windows"
+3. В появившемся окне пролистываем вниз и активируем галочку напротив "Подсистема Windows для Linux"
+4. Попросит ребутнуться - давай ребутнёмся.
+5. После ребута лезем в Microsofr Store, ищем Ubuntu, скачиваем и запускаем.
+6. При запуске попросит создать юзера - создаём, креды сохраняем/помним.
+7. После установки выполняем поэтапно:
+	a. Апдейт пакетов и установку PyPi:
+		sudo apt-get install software-properties-common
+		sudo apt-add-repository universe
+		sudo apt-get update
+		sudo apt-get install python3-pip  (используем python3 т.к. видит его, а не "python", не заморачиваемся пока)
+	б. Отлично, поставили что нужно, ставим Airflow:
+		
+		Выполняем:
+		
+		AIRFLOW_VERSION=2.1.2
+		PYTHON_VERSION="$(python3 --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
+		CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
+		pip install "apache-airflow[async,postgres,google]==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
+		
+		Ждём пока он подтянет всё.
+		(можно, конечно, "python3 -m pip install apache-airflow" но не будем пока, мы с официальной доки)
+		
+	в. Скорее всего будут ошибки, что скрипты развёрнуты в месте, которого нет в PATH, фиксим это, выполнив:
+		PATH=$PATH:~/.local/bin
+	г. Ну чтож, пора поднять базу для AF, выполняем
+		airflow db init 
+		(вообще говоря до пункта В мы не могли обратиться к airflow так, его не было видно)
