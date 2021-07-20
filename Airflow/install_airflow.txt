@@ -13,11 +13,13 @@ https://airflow.apache.org/docs/apache-airflow/stable/installation.html
 5. После ребута лезем в Microsofr Store, ищем Ubuntu, скачиваем и запускаем.
 6. При запуске попросит создать юзера - создаём, креды сохраняем/помним.
 7. После установки выполняем поэтапно:
-	a. Апдейт пакетов и установку PyPi:
+	a. Апдейт пакетов и установку PyPi, поставим tmux сразу для работы в фоне 
+	    (будет просить ввести пароль от sudo юзера, которого мы создали):
 		sudo apt-get install software-properties-common
 		sudo apt-add-repository universe
 		sudo apt-get update
 		sudo apt-get install python3-pip  (используем python3 т.к. видит его, а не "python", не заморачиваемся пока)
+		sudo apt install tmux
 	б. Отлично, поставили что нужно, ставим Airflow:
 		
 		Выполняем:
@@ -100,4 +102,23 @@ nano airflow.cfg
 
 далее меняем значение самого первого параметра dags_folder на /mnt/c/airflow/dag
 
-13. Запускаем, работаем.
+13. Для постоянного запуска юзаем tmux сессию:
+	
+	создаём:
+	
+	tmux new-session -s airflow
+	
+	раздляем экран на два (жмём cntrl + b, отпускаем, затем жмём Shift + ")
+	
+	в разных окнах зпускаем сервисы (для переключения жмякаем ctrl + b и стрелку)
+	
+	1) airflow webserver -p 8001
+	2) airflow scheduler
+	
+	делаем детач от сессии tmux (ctrl + b затем d)
+
+14. Работаем
+	
+	
+	
+	
